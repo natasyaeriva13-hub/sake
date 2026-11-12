@@ -1,0 +1,424 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Little Gift For You ♡</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #080808;
+    color: #eee;
+    font-family: Georgia, serif;
+    overflow-x: hidden;
+}
+
+#stars {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.star {
+    position: absolute;
+    background: white;
+    width: 2px;
+    height: 2px;
+    border-radius: 50%;
+    animation: twinkle 3s infinite alternate;
+}
+
+@keyframes twinkle {
+    from { opacity: .15; transform: scale(.7); }
+    to { opacity: 1; transform: scale(1.5); }
+}
+
+.screen {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 30px 20px;
+    text-align: center;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.small-title {
+    color: #999;
+    letter-spacing: 5px;
+    font-size: 11px;
+    margin-bottom: 25px;
+}
+
+h1 {
+    font-size: clamp(32px, 8vw, 60px);
+    font-weight: normal;
+    line-height: 1.3;
+    color: #fff;
+}
+
+.subtitle {
+    color: #999;
+    font-size: 14px;
+    margin-top: 15px;
+    line-height: 1.8;
+}
+
+button {
+    border: 1px solid #777;
+    color: white;
+    background: #202020;
+    padding: 13px 30px;
+    margin-top: 30px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-family: inherit;
+    letter-spacing: 1px;
+    transition: .3s;
+}
+
+button:hover {
+    background: #444;
+    transform: translateY(-3px);
+    box-shadow: 0 0 20px #7775;
+}
+
+.envelope {
+    position: relative;
+    width: 180px;
+    height: 120px;
+    background: #444;
+    margin: 45px 0 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    animation: float 3s infinite ease-in-out;
+}
+
+.envelope::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-left: 90px solid transparent;
+    border-right: 90px solid transparent;
+    border-top: 70px solid #777;
+    transform-origin: top;
+    transition: .8s;
+    z-index: 2;
+}
+
+.envelope.open::before {
+    transform: rotateX(180deg);
+}
+
+.envelope::after {
+    content: "♡";
+    position: absolute;
+    top: 35px;
+    left: 73px;
+    font-size: 35px;
+    color: white;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+}
+
+.letter {
+    background: linear-gradient(145deg, #171717, #252525);
+    border: 1px solid #555;
+    border-radius: 15px;
+    padding: 35px 25px;
+    max-width: 720px;
+    width: 100%;
+    text-align: left;
+    box-shadow: 0 0 50px #ffffff0b;
+    animation: appear 1s ease;
+}
+
+@keyframes appear {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.letter h2 {
+    text-align: center;
+    font-size: 28px;
+    font-weight: normal;
+    margin-bottom: 30px;
+}
+
+.letter-content {
+    color: #c4c4c4;
+    font-size: 15px;
+    line-height: 2.1;
+    white-space: pre-line;
+    overflow-wrap: anywhere;
+}
+
+.signature {
+    text-align: right;
+    margin-top: 35px;
+    color: white;
+    font-style: italic;
+}
+
+.music {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 5;
+    background: #292929;
+    border: 1px solid #666;
+    padding: 12px 17px;
+    border-radius: 30px;
+    font-size: 12px;
+}
+
+.heart {
+    position: fixed;
+    bottom: -20px;
+    color: #aaa;
+    pointer-events: none;
+    z-index: 4;
+    animation: rise 6s linear forwards;
+}
+
+@keyframes rise {
+    to {
+        transform: translateY(-110vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+.footer {
+    color: #777;
+    margin-top: 35px;
+    font-size: 12px;
+    letter-spacing: 2px;
+}
+</style>
+</head>
+
+<body>
+
+<div id="stars"></div>
+
+<!-- HALAMAN PEMBUKA -->
+<section class="screen" id="opening">
+
+    <p class="small-title">A LITTLE SOMETHING FOR YOU</p>
+
+    <h1>For Someone<br>Special ♡</h1>
+
+    <p class="subtitle">
+        Ada sesuatu yang ingin aku sampaikan.<br>
+        Sesuatu yang mungkin tidak bisa aku katakan secara langsung.
+    </p>
+
+    <div class="envelope" id="envelope"
+         onclick="openLetter()"></div>
+
+    <p class="subtitle">Sentuh amplopnya untuk membuka surat ♡</p>
+
+</section>
+
+<!-- HALAMAN SURAT -->
+<section class="screen hidden" id="letterScreen">
+
+    <div class="letter">
+
+        <p class="small-title" style="text-align:center">
+            A LETTER FROM MY HEART
+        </p>
+
+        <h2>Untuk Kamu, Orang Spesial ♡</h2>
+
+        <div class="letter-content" id="typedText"></div>
+
+        <div class="signature">
+            With love,<br>
+            Someone who cares about you. ♡
+        </div>
+
+    </div>
+
+    <p class="footer">MADE WITH LOVE, JUST FOR YOU</p>
+
+</section>
+
+<!-- TOMBOL MUSIK -->
+<button class="music" onclick="toggleMusic()" id="musicButton">
+    ♫ PAUSE MUSIC
+</button>
+
+<!-- FILE MUSIK -->
+<audio id="bgMusic" loop>
+    <source src="lagu.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+
+// MEMBUAT BINTANG
+const stars = document.getElementById("stars");
+
+for (let i = 0; i < 100; i++) {
+    let star = document.createElement("div");
+
+    star.className = "star";
+    star.style.left = Math.random() * 100 + "%";
+    star.style.top = Math.random() * 100 + "%";
+    star.style.animationDelay = Math.random() * 3 + "s";
+
+    stars.appendChild(star);
+}
+
+// ISI SURAT PANJANG
+const message = `God sake,.
+
+I just want to say thank you, for being such a wonderful person and for bringing so much kindness into my life. Thank you for always caring, for being so thoughtful, and for making me feel that I'm never forgotten. You have such a beautiful heart, and honestly, I'm grateful to have someone like you around me.
+
+Gardapati, you're such a sweet, lovely, and beautiful soul. ur kindness is something I genuinely admire. Sometimes, the smallest things you do mean more than you could ever imagine. I hope you know that your presence matters, your efforts are appreciated, and you deserve to receive the same kindness that you always give to others.
+I pray that life treats you gently. May Allah always protect you, bless every step you take, make your dreams come true, and surround you with people who love and appreciate you sincerely. Semoga segala hal baik yang selama ini kamu berikan kepada orang lain kembali kepadamu berkali-kali lipat. Semoga hatimu selalu dipenuhi kebahagiaan, langkahmu dimudahkan, dan tidak ada alasan untukmu merasa sendirian dalam menghadapi dunia.
+
+Please never forget how precious you are. You deserve beautiful things, beautiful moments, and a beautiful life. Thank you for being you, Gardapati. I'm truly lucky to know you.
+
+With lots of love and appreciation.
+And lastly, Gardapati, I want to apologize for all the times I might have tested ur patience. Maaf kalau terkadang sikap saya, perkataan saya, atau tingkah laku saya membuatmu harus lebih banyak bersabar menghadapi saya. I know I might not always be the easiest person to deal with, and perhaps there were moments when I unintentionally made things difficult for you. But please know that I never take your kindness for granted.
+
+Thank you for being patient with me, even on days when I might be a little too much. Thank you for staying kind, for caring, and for giving me a friendship that I genuinely treasure. I hope you never feel that all the kindness you've given me goes unnoticed, because I appreciate every little thing about you.
+
+And I sincerely hope that someday, in another time and another place, we will finally get the chance to meet in person. I would love to see you, share stories, laugh together, and create beautiful memories beyond these screens. Semoga suatu hari nanti semesta memberikan kesempatan untuk kita duduk bersama, berbincang tanpa terburu-buru, dan mengenal satu sama lain lebih dekat.
+
+Until that day comes, please take good care of yourself, okay? Jangan terlalu keras kepada dirimu sendiri. You deserve all the happiness, peace, and beautiful things this world has to offer.
+
+May Allah always keep you safe, guide your way, ease your burdens, and grant you everything your heart has been quietly wishing for. If there's one thing I wish for you, it's that you will always find reasons to smile, even on your hardest days.
+Once again, thank you for being Gardapati. Im genuinely grateful that our paths crossed. And I hope life gives us the opportunity to meet someday
+With sincere gratitude, appreciation, and warmest wishes
+
+ terimakasih sudah hidup sampai hari ini dan selalu mengusahakan agar saya selalu merasa safe dimana pun kamu berada,saya menyayangi mu sepenuh hati saya,fatamorgana di luar sana selalu memancarkan sinar pada arunika yang indah,saya akan selalu menyinari mu
+sampai kamu sendiri bisa bersinar layaknya manusia pada umumnya God sake,maaf karena terlambat bertemu denganmu,seandainya bisa mungkin saya akan menarikmu keluar dari seluruh trauma mu tanpa terkecuali dan membunuh seluruh manusia yang membuat mu sakit
+Walau saya lebih muda saya bisa melindungi mu seumur hidup saya gardapati jangan merasa sendiri. Ada saya. Katakan apapun seperti layaknya kamu mengatakan hal itu pada saya".
+
+
+Thank you for existing. ♡`;
+
+// VARIABEL
+let index = 0;
+let heartsStarted = false;
+let typingStarted = false;
+
+// FUNGSI BUKA SURAT + PUTAR MUSIK
+function openLetter() {
+
+    if (typingStarted) return;
+    typingStarted = true;
+
+    const envelope = document.getElementById("envelope");
+    const music = document.getElementById("bgMusic");
+
+    // LAGU LANGSUNG DIPUTAR SAAT DIKLIK
+    music.play().then(() => {
+        musicButton.textContent = "♫ PAUSE MUSIC";
+    }).catch(() => {
+        musicButton.textContent = "♫ PLAY MUSIC";
+        console.log("Periksa file lagu.mp3");
+    });
+
+    // ANIMASI AMPLOP
+    envelope.classList.add("open");
+
+    setTimeout(() => {
+
+        document.getElementById("opening")
+            .classList.add("hidden");
+
+        document.getElementById("letterScreen")
+            .classList.remove("hidden");
+
+        typeText();
+        createHearts();
+
+    }, 800);
+}
+
+// EFEK MENGETIK
+function typeText() {
+
+    const target = document.getElementById("typedText");
+
+    if (index < message.length) {
+
+        target.textContent += message.charAt(index);
+        index++;
+
+        setTimeout(typeText, 25);
+
+    }
+}
+
+// TOMBOL PLAY DAN PAUSE
+function toggleMusic() {
+
+    const music = document.getElementById("bgMusic");
+
+    if (music.paused) {
+
+        music.play().then(() => {
+            musicButton.textContent = "♫ PAUSE MUSIC";
+        }).catch(() => {
+            alert("Pastikan file lagu.mp3 tersedia.");
+        });
+
+    } else {
+
+        music.pause();
+        musicButton.textContent = "♫ PLAY MUSIC";
+
+    }
+}
+
+// ANIMASI HATI MELAYANG
+function createHearts() {
+
+    if (heartsStarted) return;
+    heartsStarted = true;
+
+    setInterval(() => {
+
+        const heart = document.createElement("div");
+
+        heart.className = "heart";
+        heart.textContent = Math.random() > 0.5 ? "♡" : "♥";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.fontSize =
+            (12 + Math.random() * 20) + "px";
+
+        document.body.appendChild(heart);
+
+        setTimeout(() => {
+            heart.remove();
+        }, 6000);
+
+    }, 700);
+}
+
+</script>
+
+</body>
+</html>
